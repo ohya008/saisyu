@@ -1,0 +1,418 @@
+﻿<html>
+<head>
+    <meta charset="utf-8" />
+    <script src="https://unpkg.com/three@0.137.4/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.137.4/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+    <h1>作品</h1>
+    やろうとしたこと<br>
+    まだ完成しない・・・<br>
+    <script>
+        // ページの読み込みを待つ
+        window.addEventListener('DOMContentLoaded', init);
+
+        function init() {
+            // サイズを指定
+            const width = 800
+            const height = 600;
+
+            // レンダラーを作成
+            var renderer = new THREE.WebGLRenderer();
+            document.body.appendChild(renderer.domElement);
+            renderer.setSize(width, height);
+
+            // レンダラー：シャドウを有効にする
+            renderer.shadowMap.enabled = true;
+
+            // 背景の色を設定
+            renderer.setClearColor(0x000000);
+
+            // シーンを作成
+            const scene = new THREE.Scene();
+
+            // カメラを作成
+            const camera = new THREE.PerspectiveCamera(45, width / height);
+            // カメラの初期座標を設定
+            camera.position.set(0, 0.5, 18);
+
+            // カメラコントローラーを作成
+            const controls = new THREE.OrbitControls(camera, document.body);
+
+            // 平行光源1
+            var directionalLight1 = new THREE.DirectionalLight(0xffffff);
+            directionalLight1.position.set(10, 25, 10);
+            directionalLight1.castShadow = true;
+            directionalLight1.shadow.mapSize.width = 2048;
+            directionalLight1.shadow.mapSize.height = 2048;
+            scene.add(directionalLight1);
+            // 平行光源2
+            var directionalLight2 = new THREE.DirectionalLight(0x888888);
+            directionalLight2.position.set(-10, -25, 10);
+            directionalLight2.castShadow = true; 
+            directionalLight2.shadow.mapSize.width = 2048;
+            directionalLight2.shadow.mapSize.height = 2048;
+            scene.add(directionalLight2);
+
+            // 平行光源3
+            var directionalLight3 = new THREE.DirectionalLight(0xffffff);
+            directionalLight3.position.set(0, 25, 0);
+            directionalLight3.castShadow = true;
+            directionalLight3.shadow.mapSize.width = 2048;
+            directionalLight3.shadow.mapSize.height = 2048;
+            scene.add(directionalLight3);
+
+            // 平行光源4
+            var directionalLight4 = new THREE.DirectionalLight(0xffffff);
+            directionalLight4.position.set(0, 5, -5);
+            directionalLight4.castShadow = true;
+            directionalLight4.shadow.mapSize.width = 2048;
+            directionalLight4.shadow.mapSize.height = 2048;
+            scene.add(directionalLight4);
+
+           //星
+            for (let i = 0; i < 3000; i++) {
+                var sphereGeometry = new THREE.SphereGeometry(0.3, 0.3, 100, 100);
+                var sphereMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
+                var star = new THREE.Mesh(sphereGeometry, sphereMaterial);
+                star.position.x = 10000 * (Math.random() - 0.5);
+                star.position.y = 2 * (Math.random()+ 150);
+                star.position.z = 10000 * (Math.random() - 0.5);
+                // スケールを調整
+                star.scale.set(5, 5, 5);
+                scene.add(star);
+            }
+
+            // 天井を作成
+            var geometry = new THREE.BoxGeometry(6, 0.01, 6);
+            var material = new THREE.MeshPhongMaterial({ color: 0xff1493 });
+            var tenzyou = new THREE.Mesh(geometry, material);
+            tenzyou.position.set(0, 2,0);
+            scene.add(tenzyou);
+
+            //壁右を作成
+            var geometry = new THREE.BoxGeometry(0.01, 4, 6);
+            var material = new THREE.MeshPhongMaterial({ color: 0xabff2f });
+            var kabemigi = new THREE.Mesh(geometry, material);
+            kabemigi.position.set(3, 0, 0);
+            scene.add(kabemigi);
+
+            //壁左を作成
+            var geometry = new THREE.BoxGeometry(0.01, 4, -6);
+            var material = new THREE.MeshPhongMaterial({ color: 0xabff2f });
+            var kabehidari = new THREE.Mesh(geometry, material);
+            kabehidari.position.set(-3, 0, 0);
+            scene.add(kabehidari);
+
+            //壁奥上を作成
+            var geometry = new THREE.BoxGeometry(6, 2, 0.01);
+            var material = new THREE.MeshPhongMaterial({ color: 0xabff2f });
+            var kabeokuue = new THREE.Mesh(geometry, material);
+            kabeokuue.position.set(0, 1, -3);
+            scene.add(kabeokuue);
+
+            //壁奥下を作成
+            var geometry = new THREE.BoxGeometry(6, 1, 0.01);
+            var material = new THREE.MeshPhongMaterial({ color: 0xabff2f });
+            var kabeokusita = new THREE.Mesh(geometry, material);
+            kabeokusita.position.set(0, -1.5, -3);
+            scene.add(kabeokusita);
+
+            //壁奥右作成
+            var geometry = new THREE.BoxGeometry(2, 1, 0.01);
+            var material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+            var kabeokumigi = new THREE.Mesh(geometry, material);
+            kabeokumigi.position.set(2, -0.5, -3);
+            scene.add(kabeokumigi);
+
+            //壁奥左作成
+            var geometry = new THREE.BoxGeometry(-2, 1, 0.01);
+            var material = new THREE.MeshPhongMaterial({ color: 0xffd700 });
+            var kabeokuhidari = new THREE.Mesh(geometry, material);
+            kabeokuhidari.position.set(-2, -0.5, -3);
+            scene.add(kabeokuhidari);
+
+            //ミラーボール
+            var sphereGeometry = new THREE.SphereGeometry(0.5, 12, 8);
+            var sphereMaterial = new THREE.MeshPhongMaterial({ color: 0xa9a9a9});
+            var ball = new THREE.Mesh(sphereGeometry, sphereMaterial);
+            ball.castShadow = true; //影がつく
+            ball.position.set(0, 1.2, 0);
+            scene.add(ball);
+
+            //メッシュミラーボール
+            var sphereGeometry = new THREE.SphereGeometry(0.5, 12, 8);
+            var sphereMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, wireframe: true });
+            var wire = new THREE.Mesh(sphereGeometry, sphereMaterial);
+            wire.castShadow = true; //影がつく
+            wire.position.set(0, 1.2, 0);
+            scene.add(wire);
+
+            //ミラーボールのコード
+            var cylinderGeometry = new THREE.CylinderGeometry(0.03, 0.05, 0.3, 3);
+            var cylinderMaterial = new THREE.MeshPhongMaterial({ color: 0x0000ff });
+            var cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
+            //cylinder.castShadow = true; //影がつく
+            cylinder.position.set(0, 1.85, 0);
+            scene.add(cylinder);
+
+            //ロボット
+            // 顔を作成
+            var geometry = new THREE.BoxGeometry(0.3, 0.3, 0.3);
+            var material = new THREE.MeshPhongMaterial({ color: 0xc0c0c0, ambient: 0x990000, specular: 0xffff00, shininess: 30, metal: true });
+            var box1 = new THREE.Mesh(geometry, material);
+            box1.castShadow = true; //影ができる
+            box1.position.set(0, 1.25, 0);
+
+            //身体
+            var geometry = new THREE.BoxGeometry(0.6, 1, 0.6);
+            var material = new THREE.MeshPhongMaterial({ color: 0xadd8e6, ambient: 0x990000, specular: 0xffff00, shininess: 30, metal: true });
+            var box2 = new THREE.Mesh(geometry, material);
+            box2.castShadow = true; //影ができる
+            box2.position.set(0.8, -1.4, 0.3);
+            scene.add(box2);
+
+            //左腕
+            var geometry = new THREE.BoxGeometry(0.1, 0.5, 0.1);
+            var material = new THREE.MeshPhongMaterial({ color: 0xee82ee, ambient: 0x990000, specular: 0xffff00, shininess: 30, metal: true });
+            var hidariude = new THREE.Mesh(geometry, material);
+            hidariude.castShadow = true; //影ができる
+            hidariude.position.set(1.15, -0.2, 0);
+            //scene.add(hidariude);
+
+            //左肩
+            var sphereGeometry = new THREE.SphereGeometry(0.1, 0.1, 100, 100);
+            var sphereMaterial = new THREE.MeshPhongMaterial({ color: 0xffa500, ambient: 0x990000, specular: 0xffff00, shininess: 30, metal: true });
+            var hidarikata = new THREE.Mesh(sphereGeometry, sphereMaterial);
+            hidarikata.castShadow = true; //影ができる
+            hidarikata.position.set(1, 0, 0);
+            //scene.add(hidarikata);
+
+            //右腕
+            var geometry = new THREE.BoxGeometry(0.1, 0.5, 0.1);
+            var material = new THREE.MeshPhongMaterial({ color: 0xee82ee, ambient: 0x990000, specular: 0xffff00, shininess: 30, metal: true });
+            var migiude = new THREE.Mesh(geometry, material);
+            migiude.castShadow = true; //影ができる
+            migiude.position.set(0.45, -0.2, 0);
+            //scene.add(migiude);
+
+            //右肩
+            var sphereGeometry = new THREE.SphereGeometry(0.1, 0.1, 100, 100);
+            var sphereMaterial = new THREE.MeshPhongMaterial({ color: 0xffa500, ambient: 0x990000, specular: 0xffff00, shininess: 30, metal: true });
+            var migikata = new THREE.Mesh(sphereGeometry, sphereMaterial);
+            migikata.castShadow = true; //影ができる
+            migikata.position.set(0.6, 0, 0);
+
+            //口
+            var geometry = new THREE.BoxGeometry(0.2, 0.01, 0);
+            var material = new THREE.MeshPhongMaterial({ color: 0x000000, ambient: 0x990000, specular: 0xffff00, shininess: 30, metal: true });
+            var box5 = new THREE.Mesh(geometry, material);
+            box5.castShadow = true; //影ができる
+            box5.position.set(0, 1.2, -0.15);
+
+            //左足
+            var sphereGeometry = new THREE.SphereGeometry(0.1, 0.05, 100, 100);
+            var sphereMaterial = new THREE.MeshPhongMaterial({ color: 0x696969, ambient: 0x990000, specular: 0xffff00, shininess: 30, metal: true });
+            var sphere1 = new THREE.Mesh(sphereGeometry, sphereMaterial);
+            sphere1.castShadow = true; //影ができる
+            sphere1.position.set(0.95, -1.9, 0.3);
+            scene.add(sphere1);
+
+            //右足
+            var sphereGeometry = new THREE.SphereGeometry(0.1, 0.05, 100, 100);
+            var sphereMaterial = new THREE.MeshPhongMaterial({ color: 0x696969, ambient: 0x990000, specular: 0xffff00, shininess: 30, metal: true });
+            var sphere2 = new THREE.Mesh(sphereGeometry, sphereMaterial);
+            sphere2.castShadow = true; //影ができる
+            sphere2.position.set(0.65, -1.9, 0.3);
+            scene.add(sphere2);
+
+            //左目
+            var sphereGeometry = new THREE.SphereGeometry(0.03, 0.03, 100, 100);
+            var sphereMaterial = new THREE.MeshPhongMaterial({ color: 0xffa500, ambient: 0x990000, specular: 0xffff00, shininess: 30, metal: true });
+            var eye1 = new THREE.Mesh(sphereGeometry, sphereMaterial);
+            eye1.castShadow = true; //影ができる
+            eye1.position.set(0.05, 1.3, -0.15);
+
+            //右目
+            var sphereGeometry = new THREE.SphereGeometry(0.03, 0.03, 100, 100);
+            var sphereMaterial = new THREE.MeshPhongMaterial({ color: 0xffa500, ambient: 0x990000, specular: 0xffff00, shininess: 30, metal: true });
+            var eye2 = new THREE.Mesh(sphereGeometry, sphereMaterial);
+            eye2.castShadow = true; //影ができる
+            eye2.position.set(-0.05, 1.3, -0.15);
+
+            //左
+            const hidari = new THREE.Group()
+            hidari.add(hidariude);
+            hidari.add(hidarikata);
+            hidari.position.set(0, -1.15, 0.3);//グループの原点
+            scene.add(hidari);
+
+            //右
+            const migi = new THREE.Group()
+            migi.add(migiude);
+            migi.add(migikata);
+            migi.position.set(0, -1.15, 0.3);//グループの原点
+            scene.add(migi);
+
+            const face = new THREE.Group()
+            face.add(box1);
+            face.add(box5);
+            face.add(eye1);
+            face.add(eye2);
+            face.position.set(0.8, -2, 0.3);
+            scene.add(face);
+            //ロボット終わり
+
+            //車
+            //左前タイヤ
+            var torusKnotGeometry = new THREE.TorusKnotGeometry(0.5,0.08, 100, 100, 100);
+            var torusKnotMaterial = new THREE.MeshPhongMaterial({ color: 0x00000f });
+            var fltire = new THREE.Mesh(torusKnotGeometry, torusKnotMaterial);
+            fltire.position.set(0, -1.65, 12);
+            fltire.rotation.x = Math.PI / 2; 
+            scene.add(fltire);
+            //左前ホイール
+            var geometry = new THREE.BoxGeometry(0.4, 0.4, 0);
+            var material = new THREE.MeshPhongMaterial({ color: 0x696969, ambient: 0xffffff, specular: 0xffffff, shininess: 30, metal: true });
+            var flh = new THREE.Mesh(geometry, material);
+            flh.castShadow = true; //影ができる
+            flh.position.set(0.5, -1.65, 11.999);
+            scene.add(flh);
+
+            //右前タイヤ
+            var torusKnotGeometry = new THREE.TorusKnotGeometry(0.5, 0.08, 100, 100, 100);
+            var torusKnotMaterial = new THREE.MeshPhongMaterial({ color: 0x00000f });
+            var frtire = new THREE.Mesh(torusKnotGeometry, torusKnotMaterial);
+            frtire.position.set(0, -1.65, 9);
+            frtire.rotation.x = Math.PI / 2;
+            scene.add(frtire);
+            //右前ホイール
+            var geometry = new THREE.BoxGeometry(0.4, 0.4, 0);
+            var material = new THREE.MeshPhongMaterial({ color: 0x696969, ambient: 0xffffff, specular: 0xffffff, shininess: 30, metal: true });
+            var frh = new THREE.Mesh(geometry, material);
+            frh.castShadow = true; //影ができる
+            frh.position.set(0.5, -1.65, 8.999);
+            scene.add(frh);
+
+            //左後タイヤ
+            var torusKnotGeometry = new THREE.TorusKnotGeometry(0.5, 0.08, 100, 100, 100);
+            var torusKnotMaterial = new THREE.MeshPhongMaterial({ color: 0x00000f });
+            var fltire = new THREE.Mesh(torusKnotGeometry, torusKnotMaterial);
+            fltire.position.set(1.5, -1.65, 12);
+            fltire.rotation.x = Math.PI / 2;
+            scene.add(fltire);
+            //左後ホイール
+            var geometry = new THREE.BoxGeometry(0.4, 0.4, 0);
+            var material = new THREE.MeshPhongMaterial({ color: 0x696969, ambient: 0xffffff, specular: 0xffffff, shininess: 30, metal: true });
+            var rlh = new THREE.Mesh(geometry, material);
+            rlh.castShadow = true; //影ができる
+            rlh.position.set(2, -1.65, 11.999);
+            scene.add(rlh);
+
+            //右後タイヤ
+            var torusKnotGeometry = new THREE.TorusKnotGeometry(0.5, 0.08, 100, 100, 100);
+            var torusKnotMaterial = new THREE.MeshPhongMaterial({ color: 0x00000f });
+            var rrtire = new THREE.Mesh(torusKnotGeometry, torusKnotMaterial);
+            rrtire.position.set(1.5, -1.65, 9);
+            rrtire.rotation.x = Math.PI / 2;
+            scene.add(rrtire);
+            //右後ホイール
+            var geometry = new THREE.BoxGeometry(0.4, 0.4, 0);
+            var material = new THREE.MeshPhongMaterial({ color: 0x696969, ambient: 0xffffff, specular: 0xffffff, shininess: 30, metal: true });
+            var rrh = new THREE.Mesh(geometry, material);
+            rrh.castShadow = true; //影ができる
+            rrh.position.set(2, -1.65, 8.999);
+            scene.add(rrh);
+
+            //車体下
+            var geometry = new THREE.BoxGeometry(4, 0.01, 2.995);
+            var material = new THREE.MeshPhongMaterial({ color: 0x191970, ambient: 0x990000, specular: 0x197fff, shininess: 30, metal: true });
+            var syataisita = new THREE.Mesh(geometry, material);
+            syataisita.castShadow = true; //影ができる
+            syataisita.position.set(1.2, -1.65, 10.5);
+            scene.add(syataisita);
+
+            //車体前
+            var geometry = new THREE.BoxGeometry(0.01, 0.7, 2.995);
+            var material = new THREE.MeshPhongMaterial({ color: 0x191970, ambient: 0x990000, specular: 0x197fff, shininess: 30, metal: true });
+            var syataimae = new THREE.Mesh(geometry, material);
+            syataimae.castShadow = true; //影ができる
+            syataimae.position.set(-0.8, -1.3, 10.5);
+            scene.add(syataimae);
+
+            //ボンネット
+            var geometry = new THREE.BoxGeometry(0.8, 0.01, 2.995);
+            var material = new THREE.MeshPhongMaterial({ color: 0x191970, ambient: 0x990000, specular: 0x197fff, shininess: 30, metal: true });
+            var syataibonnetto = new THREE.Mesh(geometry, material);
+            syataibonnetto.castShadow = true; //影ができる
+            syataibonnetto.position.set(-0.4, -0.95, 10.5);
+            scene.add(syataibonnetto);
+
+            //床を作成
+            var planeGeometry = new THREE.PlaneGeometry(6, 6);
+            var planeMaterial = new THREE.MeshPhongMaterial({ color: 0x00ffff });
+            var yuka = new THREE.Mesh(planeGeometry, planeMaterial);
+            yuka.receiveShadow = true; //影がつく
+            yuka.rotation.set(-Math.PI / 2, 0, 0);
+            yuka.position.set(0, -2, 0);
+            scene.add(yuka);
+
+            //道路を作成
+            var planeGeometry = new THREE.PlaneGeometry(100, 10);
+            var planeMaterial = new THREE.MeshBasicMaterial({ color: 0xa9a9a9 });
+            var road = new THREE.Mesh(planeGeometry, planeMaterial);
+            road.receiveShadow = true; //影がつく
+            road.rotation.set(-Math.PI / 2, 0, 0);
+            road.position.set(0, -2, 8);
+            scene.add(road);
+
+            //白線正面1
+            var geometry = new THREE.BoxGeometry(100, 0.01, 0.5);
+            var material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+            var white1 = new THREE.Mesh(geometry, material);
+            white1.position.set(0, -2, 3.25);
+            scene.add(white1);
+
+            //白線正面2
+            var geometry = new THREE.BoxGeometry(100, 0.01, 0.5);
+            var material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+            var white2 = new THREE.Mesh(geometry, material);
+            white2.position.set(0, -2, 13.25);
+            scene.add(white2);
+
+            //白線点線正面1
+            for (let i = 0; i < 10; i++) {
+                var geometry = new THREE.BoxGeometry(2, 0.01, 0.5);
+                var material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+                var whitetensen1 = new THREE.Mesh(geometry, material);
+                whitetensen1.position.set(i * 5, -2, 8);
+                scene.add(whitetensen1);
+            }
+
+            //白線点線正面2
+            for (let i = 0; i < 10; i++) {
+                var geometry = new THREE.BoxGeometry(2, 0.01, 0.5);
+                var material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+                var whitetensen2 = new THREE.Mesh(geometry, material);
+                whitetensen2.position.set(i * -5, -2, 8);
+                scene.add(whitetensen2);
+            }
+
+            update();
+
+            // 毎フレーム時に実行されるループイベントです
+            function update() {
+                // レンダリング
+                renderer.render(scene, camera);
+                requestAnimationFrame(update);
+
+                ball.rotation.y += 0.02;
+                wire.rotation.y += 0.02;
+                face.rotation.y += 0.05;
+                hidari.rotation.x += 0.05;
+                migi.rotation.x -= 0.05;
+            }
+        }
+    </script>
+</body>
+</html>
